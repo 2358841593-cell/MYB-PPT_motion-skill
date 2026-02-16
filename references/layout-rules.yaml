@@ -1,0 +1,135 @@
+# 布局规则配置
+# 根据内容特征自动选择最佳布局
+
+rules:
+  # 流程类内容
+  - match: "hasFlow && wordCount <= 150"
+    layout: "flow-with-notes"
+    alternatives: ["chart-above-text", "timeline-with-details"]
+
+  - match: "hasFlow && wordCount > 150"
+    layout: "chart-above-text"
+    alternatives: ["flow-with-notes"]
+
+  # 时间线类内容
+  - match: "hasTimeline && events <= 5"
+    layout: "timeline-with-details"
+    alternatives: ["chart-above-text"]
+
+  - match: "hasTimeline && events > 5"
+    layout: "timeline-with-details"
+    alternatives: ["chart-above-text"]
+
+  # 对比类内容
+  - match: "hasComparison && items == 2"
+    layout: "card-combo-2"
+    alternatives: ["diagonal-split"]
+
+  - match: "hasComparison && items == 3"
+    layout: "card-combo-3"
+    alternatives: ["card-combo-2"]
+
+  # 数据展示类
+  - match: "hasData && wordCount <= 100"
+    layout: "chart-with-sidebar"
+    alternatives: ["key-stat"]
+
+  - match: "hasData && wordCount > 100"
+    layout: "chart-below-text"
+    alternatives: ["chart-right-text"]
+
+  # 引用/金句类
+  - match: "isQuote"
+    layout: "quote-callout"
+    alternatives: ["full-image-overlay"]
+
+  # 多项并列类
+  - match: "itemCount == 2"
+    layout: "card-combo-2"
+    alternatives: ["diagonal-split"]
+
+  - match: "itemCount == 3"
+    layout: "card-combo-3"
+    alternatives: ["three-columns"]
+
+  - match: "itemCount >= 4"
+    layout: "card-combo-4"
+    alternatives: ["bento-grid"]
+
+  # 内容过长需要拆分
+  - match: "wordCount > 200"
+    action: "split"
+    notify: true
+    message: "内容超过200字，已自动拆分"
+
+  # 默认布局
+  - match: "default"
+    layout: "chart-above-text"
+    alternatives: ["card-combo-3", "quote-callout"]
+
+# 布局描述
+layouts:
+  chart-above-text:
+    name: "上图下文"
+    description: "图表占60%上方，文字30%下方"
+    bestFor: ["流程+说明", "图表+要点"]
+
+  chart-below-text:
+    name: "上文下图"
+    description: "文字30%上方，图表60%下方"
+    bestFor: ["结论+数据", "概述+图表"]
+
+  chart-left-text:
+    name: "左图右文"
+    description: "图表50%左侧，文字45%右侧"
+    bestFor: ["详细解读", "分析说明"]
+
+  chart-right-text:
+    name: "左文右图"
+    description: "文字45%左侧，图表50%右侧"
+    bestFor: ["数据展示", "结果呈现"]
+
+  chart-with-sidebar:
+    name: "主图+侧栏"
+    description: "主图65%，侧栏30%关键指标"
+    bestFor: ["核心图表+数据卡片"]
+
+  flow-with-notes:
+    name: "流程+说明"
+    description: "流程图居中，底部步骤说明"
+    bestFor: ["工作流程", "操作步骤"]
+
+  timeline-with-details:
+    name: "时间线+详情"
+    description: "时间线50%，详情45%"
+    bestFor: ["历史演进", "发展历程"]
+
+  card-combo-2:
+    name: "双卡片"
+    description: "2个并列卡片，各含图文"
+    bestFor: ["A/B对比", "方案选择"]
+
+  card-combo-3:
+    name: "三卡片"
+    description: "3个并列卡片"
+    bestFor: ["三维分析", "并列展示"]
+
+  card-combo-4:
+    name: "四卡片网格"
+    description: "2x2网格布局"
+    bestFor: ["概览", "多维展示"]
+
+  diagonal-split:
+    name: "对角分割"
+    description: "左上图+右下文"
+    bestFor: ["对比视角", "递进关系"]
+
+  full-image-overlay:
+    name: "全图叠加"
+    description: "全屏图+半透明文字"
+    bestFor: ["沉浸式", "重点强调"]
+
+  quote-callout:
+    name: "金句引用"
+    description: "大号引用+背景装饰"
+    bestFor: ["金句", "核心观点"]

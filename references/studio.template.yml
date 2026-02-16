@@ -1,0 +1,23 @@
+# my-ppt-studio per-project config (Module 01)
+
+schemaVersion: 1
+
+project:
+  title: "<TITLE>"
+  slug: "<SLUG>"
+  rootDir: "<ROOT_DIR>"
+
+output:
+  aspect: "16:9"
+  width: 1920
+  height: 1080
+  fps: 30
+
+defaults:
+  theme: "keynote-black"
+  defaultSlideSeconds: 6
+
+paths:
+  sources: "sources"
+  build: "build"
+  exports: "exports"

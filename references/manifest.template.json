@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "skill": {
+    "name": "my-ppt-studio",
+    "module": 1
+  },
+  "project": {
+    "title": "<TITLE>",
+    "slug": "<SLUG>",
+    "rootDir": "<PROJECT_DIR>",
+    "createdAt": "<ISO_DATE>",
+    "updatedAt": "<ISO_DATE>"
+  },
+  "inputs": {
+    "scriptPath": "sources/script.md",
+    "dataDir": "sources/data",
+    "assetsDir": "sources/assets"
+  },
+  "stages": {
+    "projectInit": { "status": "completed", "at": "<ISO_DATE>" },
+    "scriptParsed": { "status": "pending" },
+    "deckBuilt": { "status": "pending" },
+    "motionBuilt": { "status": "pending" },
+    "exported": { "status": "pending" }
+  },
+  "artifacts": {}
+}
