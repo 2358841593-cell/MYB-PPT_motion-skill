@@ -22,11 +22,28 @@
 
 ---
 
+
+https://github.com/user-attachments/assets/b87f1f6a-5483-4ecb-85ce-74448fb70771
+
+
+
+
+## 设计理念
+
+| 理念         | 说明                                                 |
+| ------------ | ---------------------------------------------------- |
+| **流程可控** | AI 必须按 1→2→3→4→5 顺序执行，每步都需要用户确认     |
+| **布局规范** | 参考 baoyu-slide-deck 的 14 种标准布局，确保设计质量 |
+| **组件复用** | 基于 Remotion 组件库，支持 11 种视觉风格          |
+| **自动优化** | 内置布局优化规则，自动检测并修复常见问题             |
+
+---
+
 ## 功能特性
 
 ### 核心能力
 
-- **内容到 PPT** - 粘贴文案，自动生成专业幻灯片
+- **内容到 PPT** - 复制URL获取网页信息/粘贴文案，针对PPT进行专业文案拆分 生成专业幻灯片
 - **Motion Kit 动画化** - PPT 完成后可进一步动画化
 - **双输出格式** - MP4 视频 + HTML 交互播放器
 - **11 种视觉风格** - Apple, Tech, Dark Atmospheric 等
@@ -39,11 +56,11 @@
 
 | 维度     | 传统 PPT 工具  | MYB-PPT_motion-skill           |
 | -------- | -------------- | ------------------------------ |
-| 内容输入 | 手动排版       | 粘贴文案自动生成               |
+| 内容输入 | 手动排版       | 粘贴文案/URL读取网页内容 自动生成               |
 | 动画实现 | 预设模板       | 代码驱动，完全可控             |
 | 输出格式 | 仅 PPTX        | **MP4 视频 + HTML 交互播放器** |
-| 图表动画 | 静态图表       | 竞速动画、扇区展开、数字滚动   |
-| 背景效果 | 静态或简单过渡 | 呼吸光晕、浮动粒子、渐变流动   |
+| 图表动画 | 静态图表       | 竞速动画、扇区展开、数字滚动等多种  |
+| 背景效果 | 静态或简单过渡 | 呼吸光晕、浮动粒子、渐变流动等多种   |
 | 精度控制 | 不可控         | 帧级精度（30fps）              |
 | 物理效果 | 线性过渡       | Spring 物理缓动                |
 
@@ -66,6 +83,123 @@
 ```
 
 ---
+
+## 🎯 14 种标准布局
+
+```
+基础布局
+├── title-hero        # 大标题居中，封面/章节页
+├── quote-callout     # 金句/引用，带署名
+├── bullet-list       # 要点列表，纯文字
+├── key-stat          # 单个大数字，数据展示
+├── split-screen      # 左右分屏，图文对比
+├── three-columns     # 三栏并列
+└── icon-grid         # 图标网格，功能展示
+
+信息图布局
+├── binary-comparison   # A vs B 对比
+├── hierarchical-layers # 层级结构（金字塔）
+├── circular-flow       # 环形循环，迭代流程
+├── funnel              # 漏斗转化
+└── timeline            # 时间线
+```
+
+### 布局选择决策表
+
+| 内容类型          | 推荐布局            | 理由               |
+| ----------------- | ------------------- | ------------------ |
+| 封面/章节页       | title-hero          | 大标题，视觉冲击   |
+| 金句/引用         | quote-callout       | 突出核心观点       |
+| 简单列表（2-4条） | bullet-list         | 清晰易读           |
+| 对比（A vs B）    | binary-comparison   | 左右对比，一目了然 |
+| 流程/步骤         | hierarchical-layers | 顺序展示           |
+| 层级结构          | hierarchical-layers | 金字塔/堆叠        |
+| 循环流程          | circular-flow       | PDCA等             |
+| 三组并列内容      | three-columns       | 平衡展示           |
+| 关键数据          | key-stat            | 数字聚焦           |
+
+---
+
+## 操作流程
+
+### ⛔ 强制执行规则（所有使用者必须遵守）
+
+**Step 0: 读取上下文（不可跳过）**
+
+必须读取以下文件：
+
+```bash
+# 1. 读取原始文案
+cat <project>/sources/raw-content.txt
+
+# 2. 读取当前规划
+cat <project>/sources/script.md
+
+# 3. 读取标准值库
+cat /Users/myb/Desktop/PPT/motion-kit/src/styles.ts
+
+# 4. 读取布局规范
+cat references/split-layout-spec.md
+```
+
+**Step 1: 列出执行清单**
+
+必须明确列出要修改的内容和不能修改的边界。
+
+**Step 2: 等待用户确认**
+
+**Step 3: 执行**
+
+只修改清单中列出的内容，每项完成后勾选。
+
+**Step 4: 验证**
+
+渲染后用图像分析验证。
+
+**Step 5: 报告**
+
+逐项报告结果。
+
+### 绝对禁止事项
+
+| 禁止                   | 说明              | 正确做法                           |
+| ---------------------- | ----------------- | ---------------------------------- |
+| ❌ 硬编码 fontSize     | 如 `fontSize: 26` | 使用 `currentStyle.bulletFontSize` |
+| ❌ 硬编码 padding      | 如 `padding: 100` | 使用 `currentStyle.contentPadding` |
+| ❌ 擅自修改 visualType | 必须用户确认      | 保留原始设置                       |
+| ❌ 删除 bullets        | 忽略原文案内容    | 必须保留                           |
+| ❌ 不读规划直接改      | 凭记忆修改        | 先读取文件                         |
+| ❌ 跳过验证            | 修改后不检查      | 必须渲染+验证                      |
+
+### ⛔ 强制流程（不可跳过）
+
+```
+Step 1: 接收文案 → 仅接收，不执行任何操作
+   ↓
+Step 2: AI 手动编写规划 → 必须参考 references/layouts.md
+   ↓
+Step 3: 视觉组件方案 → 每页必须匹配视觉库组件
+   ↓
+Step 4: 用户确认 → 必须等待用户明确同意
+   ↓
+Step 5: 渲染生成 → 用户确认后才能执行
+```
+
+### 渲染命令
+
+```bash
+# 渲染所有幻灯片
+node scripts/render-slide.mjs --project <项目目录> --all
+
+# 渲染单页
+node scripts/render-slide.mjs --project <项目目录> --slide 1
+
+# 生成 PPTX
+node scripts/build-deck.mjs --project <项目目录> --skip-render
+```
+
+---
+
 
 ## Motion Kit 动画系统
 
@@ -292,6 +426,18 @@ npm run dev
 | `sketch-notes`     | #FFF8DC 米黄   | 创意/头脑风暴 |
 | `scientific`       | #F8FAFC 浅灰   | 学术/科研展示 |
 
+<img width="1920" height="1080" alt="tech" src="https://github.com/user-attachments/assets/1d00bf61-7f1b-44d1-900d-800692c0ebc0" />
+<img width="1920" height="1080" alt="sketch-notes" src="https://github.com/user-attachments/assets/3e632e5d-447c-467f-810b-d6114037b091" />
+<img width="1920" height="1080" alt="scientific" src="https://github.com/user-attachments/assets/91af6cd4-4739-41a9-9bda-7e45c18bd7dd" />
+<img width="1920" height="1080" alt="notion" src="https://github.com/user-attachments/assets/1dae7b9e-1494-4cd9-85fa-f778716eba6c" />
+<img width="1920" height="1080" alt="minimal" src="https://github.com/user-attachments/assets/4ef67344-9a60-49c1-a4a3-ba50f1cce2ef" />
+<img width="1920" height="1080" alt="dark-atmospheric" src="https://github.com/user-attachments/assets/2484c7b4-d630-41aa-8bed-7db18c060b24" />
+<img width="1920" height="1080" alt="corporate" src="https://github.com/user-attachments/assets/fb248bd2-4917-4829-bfde-e2af4b991ef9" />
+<img width="1920" height="1080" alt="chalkboard" src="https://github.com/user-attachments/assets/b819c140-ea72-4e8f-9e1c-399479134211" />
+<img width="1920" height="1080" alt="bold-editorial" src="https://github.com/user-attachments/assets/2d14295a-d28a-490f-9ab4-adf8e543e164" />
+<img width="1920" height="1080" alt="blueprint" src="https://github.com/user-attachments/assets/b1662f18-bac0-42e3-b3c5-c9dbeebfa634" />
+<img width="1920" height="1080" alt="apple" src="https://github.com/user-attachments/assets/9db98bbd-124d-47f4-ad5f-d6876f093c9d" />
+
 ---
 
 ## 布局类型（16 种）
@@ -323,17 +469,25 @@ npm run dev
 
 KeynoteText, GlowText, ShadowText, GradientText, StrokeText, NeonText, Retro3DText, SplitColorText, LetterPressText, MetallicText, OutlineShadowText, PerspectiveText, EmbossText
 
+<img width="1920" height="1080" alt="apple" src="https://github.com/user-attachments/assets/5999df9b-a1e9-4056-885d-1a62eff2905a" />
+
 ### 图表（12 种）
 
 PieChart, DonutChart, BarChart, HorizontalBarChart, LineChart, AreaChart, RadarChart, GaugeChart, ProgressBars, ScatterChart, DataCard, FunnelChart
+
+<img width="1920" height="1080" alt="apple" src="https://github.com/user-attachments/assets/3715caaf-d80c-4d66-b66a-73896ca2f53d" />
 
 ### 流程图（12 种）
 
 PyramidDiagram, OnionDiagram, HorizontalFlow, VerticalFlow, CycleDiagram2, TreeDiagram, OrgChart, MatrixDiagram, SwimlaneDiagram, ComparisonDiagram, StepsDiagram, ChevronDiagram
 
+<img width="1920" height="1080" alt="apple" src="https://github.com/user-attachments/assets/a437d0a5-214c-47c4-a791-6c8030339889" />
+
 ### 形状装饰（12 种）
 
 Arrow, DoubleArrow, CurvedArrow, BlockArrow, IconShape, Divider, ShapeBracket, Badge, Tag, PlaceholderBox, DecorLine, CornerMark
+
+<img width="1920" height="1080" alt="apple" src="https://github.com/user-attachments/assets/21cbbc0a-7422-428a-92b4-7f20a07ee4bb" />
 
 ### 抽象装饰（5 种）
 
